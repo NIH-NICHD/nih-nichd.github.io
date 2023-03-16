@@ -14,7 +14,7 @@
       <script>
         // Current page data
         var mkdocs_page_name = "Preamble to building workflows using containers";
-        var mkdocs_page_input_path = "classes/day-4-workflow-development/preamble-to-building-a-workflow-using-containers.md";
+        var mkdocs_page_input_path = "classes/day-4-workflow-development/preamble.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -89,7 +89,7 @@
     <li><a href="../../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
       <li>Preamble to building workflows using containers</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/adeslatt/Kids-First-INCLUDE-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/docs/classes/day-4-workflow-development/preamble-to-building-a-workflow-using-containers.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/adeslatt/Kids-First-INCLUDE-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/docs/classes/day-4-workflow-development/preamble.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -181,11 +181,11 @@ The second is the TARGET_IMAGE</p>
 <p>To authenticate we need a developers token.</p>
 <h2 id="login-to-cavatica-and-generate-authentication-token">Login to CAVATICA and Generate Authentication Token</h2>
 <p>Navigate to the Developers Tab
-<img src="https://github.com/NIH-NICHD/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/assets/CAVATICADevelopersRegistryToken.png" ></p>
+<img src="/../../img/CAVATICADevelopersRegistryToken.png" ></p>
 <p>Select <em><code>Authentication Token</code></em> and Press <em><code>Generate Authentication Token</code></em></p>
-<p><img src="https://github.com/NIH-NICHD/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/assets/CAVATICADevelopersGenerateAuthenticationToken.png" ></p>
+<p><img src="/../../img/CAVATICADevelopersGenerateAuthenticationToken.png" ></p>
 <p>Have a look at your repository, you will see that it is empty.
-<img src="https://github.com/NIH-NICHD/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/assets/CAVATICADevelopersRepository.png" ></p>
+<img src="/../../img/AVATICADevelopersRepository.png" ></p>
 <p>Now copy your authentication token.</p>
 <p>Now go back to the Google Shell and login to the repository.</p>
 <pre><code class="language-bash">docker login pgc-images.sbgenomics.com -u adeslat -p [paste your authentication token here]
@@ -203,7 +203,7 @@ ad6562704f37: Pushed
 v0.11.9: digest: sha256:400e075f2ba7c94f6982caa3a43bd90d1857ecde457bf4a26a4ab9b9423d7d85 size: 1373
 </code></pre>
 <p>Now we can inspect our repository on CAVATICA and we see:
-<img src="https://github.com/NIH-NICHD/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/assets/CAVATICADevelopersRepositoryFastqc.png" ></p>
+<img src="/../../img/CAVATICADevelopersRepositoryFastqc.png" ></p>
 <p>Now we actually can properly build and tag from the getgo our other image, for multiqc.</p>
 <h3 id="build-and-tag-multiqc">Build and Tag Multiqc</h3>
 <p>Navigate to the multiqc-docker directory</p>
@@ -217,7 +217,7 @@ v0.11.9: digest: sha256:400e075f2ba7c94f6982caa3a43bd90d1857ecde457bf4a26a4ab9b9
 <pre><code class="language-bash">docker push pgc-images.sbgenomics.com/adeslat/multiqc:v1.0dev0
 </code></pre>
 <p>And now when we inspect our repository, we have:
-<img src="https://github.com/NIH-NICHD/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/blob/main/assets/CAVATICADevelopersRepositoryMultiqc.png" ></p>
+<img src="/../../img/CAVATICADevelopersRepositoryMultiqc.png" ></p>
 <p>Now we can proceed with our workflow development!</p>
 <p><a href="../day-4-workflow-development/">Return to Agenda</a></p>
               

@@ -98,7 +98,7 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="building-a-nextflow-workflow">Building A Nextflow Workflow</h2>
-<p>If you have arrived here from the front page and have not built your <em><code>fastqc-docker</code></em> and <em><code>multiqc-docker</code></em> containers, please proceed to the <a href="../preamble-to-building-a-workflow-using-containers/">preamble to building a Nextflow Workflow</a></p>
+<p>If you have arrived here from the front page and have not built your <em><code>fastqc-docker</code></em> and <em><code>multiqc-docker</code></em> containers, please proceed to the <a href="../preamble/">preamble to building a Nextflow Workflow</a></p>
 <p><strong>Main outcome:</strong> </p>
 <p>During the first session you will build a <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> &amp; <a href="https://multiqc.info/">MultiQC</a> pipeline to learn the basics of Nextflow including:</p>
 <ul>
@@ -166,40 +166,35 @@ Proceed ([y]/n)?
 <pre><code class="language-bash">cd adeslatt
 </code></pre>
 <p>And clone</p>
-<pre><code class="language-bash">git clone https://github.com/adeslatt/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance.git
+<pre><code class="language-bash">git clone https://github.com/NIH-NICHD/Building-A-Nextflow-Script.git
 </code></pre>
-<p>Now navigate to our lesson</p>
-<pre><code class="language-bash">cd Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/classes/Building-A-Nextflow-Script/
-</code></pre>
-<h3 id="b-parameters">b) Parameters</h3>
-<p>Now that we have Nextflow &amp; Docker installed we're ready to run our first script</p>
-<p>Normally, you begin by creating a file, for our lesson we are going to use a file that has already been created on your behalf.   We will go through this file and understand its content.</p>
-<p>But in general these files are edited with your favorite your favourite code/text editor eg nano, VSCode, vim or emacs</p>
-<p>Inspect the file <code>params_reads.nf</code></p>
-<p>Typing </p>
-<pre><code class="language-bash">less params_reads.nf
-</code></pre>
-<p>You see the contents of the file is as follows:</p>
+<h3 id="b-parameters-otherwise-known-as-inputs">b) Parameters (otherwise known as inputs)</h3>
+<p>Now that we have Nextflow &amp; Docker installed we're ready to run our first script and learn how we bring in data into a file.</p>
+<p>Let's open the file <code>params_reads.nf</code></p>
+<p>You see the following content:</p>
 <pre><code class="language-nextflow">// params_reads.nf
 params.reads = false
 
 println &quot;My reads: ${params.reads}&quot;
 </code></pre>
-<p>The first line initialises a new variable (<code>params.reads</code>) &amp; sets it to <code>false</code>
-The second line prints the value of this variable on execution of the pipeline.</p>
-<p>We can now run this script &amp; set the value of <code>params.reads</code> to one of our FASTQ files in the testdata folder with the following command:</p>
+<p>The first line is a comment.  Comments in Nextflow can begin with <code>//</code>.   Every language has a different way of indicating that this is for the human to read and not the machine.   This comment may seem silly, but when you have many files open, it is uesful to have an indication of where you are.</p>
+<p>The second line creates something for the computer.  Think of it as an empty vessel.  We can call it what we want, but in this case we are actually going to use something that our program, <code>nextflow</code> understands, <code>params</code> and create an arbitrary term <em>reads</em> Together they make what you could imagine is an element of a paragraph.  You can define many things that are of a <code>params</code> type, but for now we are just creating one thing.  Something we are calling <code>reads</code>.</p>
+<p>Finally we are setting this <code>params.reads</code> to <code>false</code>.</p>
+<p>The third line instructs the program <code>nextflow</code> to print out the value of this <code>parameter</code> upon execution of the workflow.</p>
+<p>This minimal workflow can now be executed by the <code>nextflow</code> application we have installed.</p>
+<p>We will do this and we will provide the workflow a value to <code>params.reads</code>.</p>
+<p>In this repository are two <code>fastq</code> files in a <code>directory</code> within the freshly checked out repository as follows.</p>
 <pre><code class="language-bash">nextflow run params_reads.nf --reads testdata/test.20k_reads_1.fastq.gz
 </code></pre>
 <p>The run returns the name of our file.</p>
-<h4 id="recap">Recap</h4>
-<p>Here we learnt how to define parameters &amp; pass command line arguments to them in Nextflow</p>
 <h3 id="c-processes-inputs-outputs-scripts">c) Processes (inputs, outputs &amp; scripts)</h3>
+<p>Well, we have run our first <code>nextflow</code> workflow, congratulations!.</p>
 <p>Nextflow allows the execution of any command or user script by using a <code>process</code> definition. </p>
 <p>A process is defined by providing three main declarations: 
 the process <a href="https://www.nextflow.io/docs/latest/process.html#inputs">inputs</a>, 
 the process <a href="https://www.nextflow.io/docs/latest/process.html#outputs">outputs</a>
 and finally the command <a href="https://www.nextflow.io/docs/latest/process.html#script">script</a>.</p>
-<p>Let's look at the next script, <code>fastqc.nf</code>, we see the following:</p>
+<p>Let's look at the next workflow, <code>fastqc.nf</code>, we see the following:</p>
 <pre><code class="language-nextflow">//fastqc.nf
 reads = file(params.reads)
 
@@ -225,11 +220,10 @@ process fastqc {
  - the <a href="https://www.nextflow.io/docs/latest/process.html#inputs">inputs</a> where we declare a <code>file</code> <code>reads</code> from our variable <code>reads</code>
  - the <a href="https://www.nextflow.io/docs/latest/process.html#outputs">output</a> which is anything ending in <code>_fastqc.zip</code> or <code>_fastqc.html</code> which will go into a <code>fastqc_results</code> channel
  - the <a href="https://www.nextflow.io/docs/latest/process.html#script">script</a> where we are running the <code>fastqc</code> command on our <code>reads</code> variable</p>
-<p>We can then run our script with either the following command:</p>
+<p>We can then run our workflow with the following command:</p>
 <pre><code class="language-bash">nextflow run fastqc.nf --reads testdata/test.20k_reads_1.fastq.gz -with-docker fastqc
 </code></pre>
-<p>or as we noted </p>
-<p>We are using the image I had pushed to the Seven Bridges Image repository -- in the next session I will walk through how that is done.</p>
+<p>We are using a docker image I previously had pushed to the Seven Bridges Image repository -- in the next session I will walk through how that is done.</p>
 <p>By running Nextflow using the <code>with-docker</code> flag we can specify a Docker container to execute this command in. This is beneficial because it means we do not need to have <code>fastqc</code> installed locally on our laptop. We just need to specify a Docker container that has <code>fastqc</code> installed.</p>
 <h3 id="d-channels">d) Channels</h3>
 <p>Channels are the preferred method of transferring data in Nextflow &amp; can connect two processes or operators.</p>
@@ -266,8 +260,6 @@ process fastqc {
 <p>To run the pipeline:</p>
 <pre><code class="language-bash">nextflow run fastqc.nf --reads &quot;testdata/test.20k_reads_{1,2}.fastq.gz&quot; -with-docker pgc-images.sbgenomics.com/adeslat/fastqc:v0.11.9
 </code></pre>
-<h4 id="recap_1">Recap</h4>
-<p>Here we learnt how use to the <a href="https://www.nextflow.io/docs/latest/channel.html#fromfilepairs"><code>fromFilePairs</code></a> method to generate a channel for our input data.</p>
 <h3 id="e-operators">e) Operators</h3>
 <p>Operators are methods that allow you to manipulate &amp; connect channels.</p>
 <p>Here we will add a new process <code>multiqc</code> &amp; use the <a href="https://www.nextflow.io/docs/latest/operator.html#collect"><code>.collect()</code></a> operator</p>
@@ -314,8 +306,6 @@ process multiqc {
 <p>The pipeline can be run with the following:</p>
 <pre><code class="language-bash">nextflow run fastqc_multiqc_wf.nf --reads &quot;testdata/test.20k_reads_{1,2}.fastq.gz&quot; -with-docker pgc-images.sbgenomics.com/deslattesmaysa2/fastqc:v1.0
 </code></pre>
-<h4 id="recap_2">Recap</h4>
-<p>Here we learnt how to use operators such as <code>collect</code> &amp; connect processes via channels</p>
 <h3 id="f-configuration">f) Configuration</h3>
 <p>Configuration, such as parameters, containers &amp; resources eg memory can be set in <code>config</code> files such as <a href="https://www.nextflow.io/docs/latest/config.html#configuration-file"><code>nextflow.config</code></a>.</p>
 <p>For example our <code>nextflow.config</code> file might look like this:</p>
@@ -340,7 +330,7 @@ process {
 <pre><code class="language-bash">nextflow run fastqc_multiqc_wf.nf --reads &quot;testdata/test.20k_reads_{1,2}.fastq.gz&quot;
 </code></pre>
 <h2 id="proceed-to-the-next-lesson">Proceed to the next lesson</h2>
-<p><a href="https://github.com/NIH-NICHD/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/tree/main/classes/Building-A-CWL-Script#readme">Building-A-CWL-Script</a></p>
+<p><a href="../day-4-workflow-development/">Return to the Agenda</a></p>
               
             </div>
           </div><footer>
