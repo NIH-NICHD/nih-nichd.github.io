@@ -66,8 +66,6 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../../about/attribution/">Attribution</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../../about/other-topics-of-interest/">Other topics of interest</a>
-                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../../about/license/">License</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../../../about/how-this-site-was-made/">Making this site</a>
@@ -105,11 +103,6 @@
 <pre><code class="language-bash">git clone https://github.com/NIH-NICHD/Building-A-CWL-Script.git
 </code></pre>
 <h2 id="showing-the-cwl-workflow-with-the-same-containers">Showing the CWL workflow with the same containers</h2>
-<p>If you are at the <em><code>root</code></em> directory of the <em><code>shell</code></em>, then change directory into the directory for this class.</p>
-<p>First change directory to your user name, if you haven't already made it, then make the directory and then change into it.</p>
-<pre><code class="language-bash">mkdir adeslatt
-cd adeslatt
-</code></pre>
 <p>Now Navigate to this class</p>
 <pre><code class="language-bash">cd Building-A-CWL-Script
 </code></pre>
@@ -191,43 +184,6 @@ outputs:
 <p>With the <em><code>inputs:</code></em> we see that we have <em><code>input_reads:</code></em> which asks us to input our reads, there is also a specification for an <em><code>outdir</code></em>.</p>
 <p>While I will not go into much more detail, I will emphasize that the <code>cwl</code> script is using the same containers as we did in the <code>nextflow</code> script.</p>
 <p>We can also inspect the <code>multiqc.cwl</code> file in that way or in the editor.</p>
-<h2 id="authenticating-with-cavatica">Authenticating with CAVATICA</h2>
-<p>You can authenticate in two ways, you can use a <em><code>credential</code></em> file that the <em><code>CAVATICA</code></em> application recognizes or you can do command line login.</p>
-<p>Both methods use the <em><code>CAVATICA</code></em>'s developer's authentication token.</p>
-<p>If you navigate to <em><code>CAVATICA</code></em> to your <em><code>project</code></em>, for me it was the <em><code>elements-of-style</code></em> project.
-<img src="/../../img/CAVATICAElements-of-StyleDashboard.png"></p>
-<p>Then navigate to the <em><code>CAVATICA</code></em> Docker registry under the <em><code>Developer</code></em> tab.</p>
-<p><img src="/../../img/CAVATICADockerRegistry.png"></p>
-<p>Selecting the one of the containers of interest, <em><code>fastqc</code></em>, you can see more detail with the container:</p>
-<p><img src="/../../img/CAVATICAFastqcDockerDetail.png"></p>
-<p>Further, you can see, that <em><code>CAVATICA</code></em> has conveniently placed the necessary commands to facilitate <em><code>login</code></em>, <em><code>push</code></em> and <em><code>pull</code></em>.</p>
-<p><img src="/../../img/CAVATICAFastqcDockerCommands.png"></p>
-<h3 id="authenticate-with-command-line-login">Authenticate with command line login</h3>
-<p>Let's copy the <em><code>login</code></em> command and paste it in our <em><code>google shell window</code></em>.</p>
-<pre><code class="language-bash">docker login pgc-images.sbgenomics.com -u &lt;USERNAME&gt; -p &lt;YOUR-AUTH-TOKEN&gt;
-</code></pre>
-<p>Replace the <em><code>&lt;USERNAME&gt;</code></em> with your <em><code>username</code></em> and the <em><code>&lt;YOUR-AUTH-TOKEN&gt;</code></em> with your <em><code>authentication token</code></em>.</p>
-<h3 id="authenticate-with-a-cavatica-credential-file">Authenticate with a CAVATICA credential file.</h3>
-<p>Alternatively you create your credentials in a credential file.</p>
-<p>To do this at the <em><code>root</code></em> directory, you can type the command <em><code>push ~</code></em> to navigate to the root directory.</p>
-<p>A fun pair of commands for navigation in a shell are <em><code>pushd</code></em> and <em><code>popd</code></em>.  <a href="https://en.wikipedia.org/wiki/Pushd_and_popd">Wikipedia actually has a nice page to explain these two commands for faster navigation</a>.  Think of pushing your commands on a stack and popping them off to return where you are.</p>
-<p>Let's <em><code>pushd</code></em> to our root directory</p>
-<pre><code class="language-bash">pushd ~/
-</code></pre>
-<p>Now make a directory for <em><code>CAVATICA</code></em> to find your credentials</p>
-<pre><code class="language-bash">mkdir .sevenbridges
-</code></pre>
-<p>You are creating a subdirectory that is a <em><code>hidden</code></em> directory by typing <em><code>mkdir .sevenbridges</code></em>, which you can now navigate to.</p>
-<pre><code class="language-bash">cd .sevenbridges
-</code></pre>
-<p>you can use <em><code>touch</code></em> to create your credentials file.</p>
-<pre><code class="language-bash">[cavatica]
-api_endpoint = https://cavatica-api.sbgenomics.com/v2
-auth_token = &lt;paste your AUTHENTICATION TOKEN here&gt;
-</code></pre>
-<p>Now to get back to where we started type</p>
-<pre><code class="language-bash">popd
-</code></pre>
 <h3 id="installing-cwltool">Installing cwltool</h3>
 <p>In the same way that we installed <code>nextflow</code>, we can install <code>cwltool</code>.</p>
 <p>To find the exact command, I typically google <code>anaconda search packages</code> and arrive here:</p>
@@ -274,11 +230,12 @@ wget https://zenodo.org/record/7025773/files/test.20k_reads_2.fastq.gz
 <p>If we look in the directory we now see the output from the <em><code>multiqc</code></em> run.</p>
 <p>We can inspect the output file in the same manner we inspected the <em><code>fastqc</code></em> output.</p>
 <p>Navigate to the appropriate directory in the <em><code>Cloud Editor</code></em> window, right click on the file <em><code>report.multiqc.html</code></em> and select <em><code>preview</code></em> and review the output, which is the aggregated report of the quality of both of the <em><code>fastq</code></em> files.</p>
-<h3 id="recap">recap</h3>
-<p>We saw how to
-* install cwltool
-* authenticated to our own <em><code>CAVATICA</code></em> docker registry
-* run and test fastqc and multiqc separately using the CWL language but calling the same exact docker image as we did with the Nextflow language.</p>
+<h3 id="recap"><em>recap</em></h3>
+<p>We saw how to:</p>
+<ul>
+<li>install cwltool</li>
+<li>run and test fastqc and multiqc separately using the CWL language but calling the same exact docker image as we did with the Nextflow language.</li>
+</ul>
 <h2 id="stitching-together-the-two-processes-into-a-single-workflow">Stitching together the two processes into a single workflow</h2>
 <p>CWL does not use channels, but can read the output files from the first process as input to the second process, thereby permitting the stitching together of processes into a single workflow.   When we go to the CAVATICA platform, we will see how we can do this within the visual editor.</p>
 <p>These steps help us to test the processes separately before putting them together into a single workflow, adhering to our Elements of Style approach!</p>
@@ -357,8 +314,8 @@ inputs:
   input_reads: { type: 'File[]', doc: &quot;Input fastq files&quot; }
   fastqc_outdir: { type: 'string?', default: &quot;results&quot; }
 </code></pre>
-<p>here this does not provide documentation (but could), but tels us that the file type is a <code>string</code> and it provides a default name <code>results</code> which we have used in our use of the file.   Theoretically we could specify another name, lets say we wanted to do so, lets call it <code>--fastqc_outdir 2022mar31_results</code>, to test our assumptions.</p>
-<pre><code class="language-bash">cwltool fastqc_multiqc_wf.cwl --input_reads test.20k_reads_1.fastq.gz --input_reads test.20k_reads_2.fastq.gz --fastqc_outdir 2022mar31_results
+<p>here this does not provide documentation (but could), but tels us that the file type is a <code>string</code> and it provides a default name <code>results</code> which we have used in our use of the file.   Theoretically we could specify another name, lets say we wanted to do so, lets call it <code>--fastqc_outdir 2023mar17_results</code>, to test our assumptions.</p>
+<pre><code class="language-bash">cwltool fastqc_multiqc_wf.cwl --input_reads test.20k_reads_1.fastq.gz --input_reads test.20k_reads_2.fastq.gz --fastqc_outdir 2023mar17_results
 </code></pre>
 <p>If we are correct, then we will now have a new directory <code>fastqc_outdir</code>, and we do!</p>
 <pre><code class="language-bash">~/Kids-First-Elements-of-Style-Workflow-Creation-Maintenance/classes/Building-A-CWL-Script$ ls -l
